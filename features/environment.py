@@ -14,10 +14,7 @@ def before_all(context):
     context.base_url = BASE_URL
     context.wait_seconds = WAIT_SECONDS
     # Select either Chrome or Firefox
-    if 'firefox' in DRIVER:
-        context.driver = get_firefox()
-    else:
-        context.driver = get_chrome()
+    context.driver = get_chrome()
     context.driver.implicitly_wait(context.wait_seconds)
     context.config.setup_logging()
 
@@ -25,6 +22,7 @@ def before_all(context):
 def after_all(context):
     """ Executed after all tests """
     context.driver.quit()
+
 
 ######################################################################
 # Utility functions to create web drivers
@@ -35,12 +33,11 @@ def get_chrome():
     options = webdriver.ChromeOptions()
     options.add_argument("--no-sandbox")
     options.add_argument("--headless")
-    return webdriver.Chrome(options=options)
+    return webdriver.Chrome(options=options, executable_path="./chromedriver")
 
 
 def get_firefox():
     """Creates a headless Firefox driver"""
     options = webdriver.FirefoxOptions()
     options.add_argument("--headless")
-    return webdriver.Firefox(options=options)    
-    
+    return webdriver.Firefox(options=options)
